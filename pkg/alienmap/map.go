@@ -291,3 +291,85 @@ func (m *Map) FirstWave(numAliens uint64) error {
 }
 
 func (m *Map) SubsequentWave() {} //?
+
+// Simulate runs a an alien invasion simulation based on parameters
+// passed: numAliens and steps
+// Assumes that, at no point, more than two aliens can be in a city
+func (m *Map) Simulate(numAliens uint64, steps uint64) error {
+	// m.occupants := make(map[*City]mapset.Set)
+	// Assign aliens to random cities
+	m.FirstWave(numAliens)
+	// Step with aliens
+	for step := uint64(2); step <= steps; step++ {
+		// Look at all cities with alien occupants
+		if len(m.cities) == 0 || m.numAliens == 0 {
+			break
+		}
+		fmt.Println("step: ", step)
+		fmt.Println("step start: ", m.occupants)
+		fmt.Println("step aliens: ", m.numAliens)
+		movedAliens := make(map[interface{}]bool)
+
+		for city, cityOccupants := range m.occupants {
+			fmt.Println("current_city: ", city.name)
+			_, destroyed := m.destroyed[city.name]
+			// If those cities have neighbors, we can move the occcupants one step
+			if m.hasNeighbors(city) && !destroyed {
+				occcupantsToRemove := make([]interface{}, 0)
+
+				for _, cityOccupant := range cityOccupants.ToSlice() {
+					_, moved := movedAliens[cityOccupant]
+					if moved {
+						fmt.Println(cityOccupant, "already moved")
+						continue
+					}
+					randomCity := m.PickRandomNeighbor(city)
+					fmt.Println("current_alien: ", cityOccupant)
+					fmt.Println("moved_aliens: ", movedAliens)
+					fmt.Println("destination_city: ", randomCity.name)
+					// Update the neighboring city's slice of occupants
+					_, ok := m.occupants[randomCity]
+					_, destroyed := m.destroyed[randomCity.name]
+					if ok {
+						fmt.Println("substate mid1: ", m.occupants)
+						m.occupants[randomCity].Add(cityOccupant)
+						fmt.Printf("alien %d going from %s to %s\n", cityOccupant, city.name, randomCity.name)
+						m.occupants[city].Remove(cityOccupant)
+						fmt.Println("substate mid2: ", m.occupants)
+						if m.occupants[randomCity].Cardinality() > 1 {
+							aliens := m.occupants[randomCity].ToSlice()
+							fmt.Printf("%s has been destroyed by alien %d and alien %d!\n",
+								randomCity.name,
+								aliens[0],
+								aliens[1],
+							)
+							m.numAliens -= 2
+							m.RemoveCity(randomCity.name)
+							delete(m.occupants, randomCity)
+							fmt.Println("substate mid3: ", m.occupants)
+						}
+					} else if !destroyed {
+						m.occupants[randomCity] = mapset.NewSet()
+						fmt.Println("substate mid1: ", m.occupants)
+						m.occupants[randomCity].Add(cityOccupant)
+						fmt.Printf("alien %d going from %s to %s\n", cityOccupant, city.name, randomCity.name)
+						m.occupants[city].Remove(cityOccupant)
+						fmt.Println("substate mid2: ", m.occupants)
+					}
+					fmt.Println("adding", cityOccupant, "to moved_aliens")
+					movedAliens[cityOccupant] = true
+				}
+
+				for removedAlien := range occcupantsToRemove {
+					cityOccupants.Remove(removedAlien)
+				}
+			} else {
+				fmt.Println(city.name, "has been destroyed or has no neighbors.")
+			}
+			fmt.Println()
+		}
+		fmt.Println("step end: ", m.occupants)
+		fmt.Println("----------------------------------------------------")
+	}
+	return nil
+}

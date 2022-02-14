@@ -29,6 +29,14 @@ func TestFirstWave(t *testing.T) {
 	m.FirstWave(5)
 }
 
+func TestSimulate(t *testing.T) {
+	m, err := helper()
+	assert.NoError(t, err)
+	m.PrintMap()
+	m.Simulate(5, 10)
+	m.PrintMap()
+}
+
 func helper() (Map, error) {
 	var m Map
 	c := Config{
