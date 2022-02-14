@@ -134,7 +134,9 @@ func (m *Map) PrintMap() {
 
 		fmt.Fprint(os.Stdout, city)
 		fmt.Fprint(os.Stdout, " ")
-		for direction, neighborCity := range connections {
+		directions := []string{"north", "west", "south", "east"}
+		for _, direction := range directions {
+			neighborCity := connections[direction]
 			if neighborCity == nil {
 				continue
 			}
