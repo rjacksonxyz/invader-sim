@@ -45,6 +45,7 @@ make build
 ```
 Now we can get started with `invader-sim` !
 
+---
 
 ## Using Invader Sim
 
