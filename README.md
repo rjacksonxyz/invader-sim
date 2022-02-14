@@ -38,10 +38,22 @@ Now we can get started with ```invader-sim``` !
 
 ## Using Invader Sim
 
+![alt text](https://github.com/zkmiyavi/invader-sim/blob/main/docs/default_run.png)
+Above is an example of a default run of the Invader Sim CLi. From the user's perspective, the simulation shows 3 parts:
+1. Print out the initial state of the map
+2. Print out notification when a city is destroyed
+3. Print out the final state of the map
 
+If you want more info on the CLI, run: 
+```zsh
+./bin/invader-sim -h
+#OR
+./bin/invader-sim --help
+```
+![alt text](https://github.com/zkmiyavi/invader-sim/blob/main/docs/help_prompt.png)
 
 ---
-## Objective
+## Project Objective
 
 The objective laid out is to build an alien invasion simulator with constraints laid out in [prompt.txt]()
     
