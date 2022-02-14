@@ -138,6 +138,9 @@ func (m *Map) PrintMap() {
 		fmt.Fprint(os.Stdout, city)
 		fmt.Fprint(os.Stdout, " ")
 		for direction, neighborCity := range connections {
+			if neighborCity == nil {
+				continue
+			}
 			fmt.Fprintf(os.Stdout, " %v=%v", direction, neighborCity)
 		}
 		fmt.Fprintln(os.Stdout)
