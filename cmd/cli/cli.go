@@ -1,6 +1,8 @@
-package cmd
+package cli
 
 import (
+	"invader-sim/pkg/alienmap"
+
 	"github.com/spf13/cobra"
 )
 
@@ -12,16 +14,15 @@ var (
 		Use:  "invader-sim",
 		Long: "Invader Sim: Alien Invasion Simulator\nSpec info available at: https://github.com/zkmiyavi/invader-sim/prompt/prompt.txt",
 		RunE: func(cmd *cobra.Command, args []string) error {
-			return simulate()
+			c := &alienmap.Config{
+				Filepath:  filepath,
+				NumAliens: numAliens,
+				NumSteps:  numSteps,
+			}
+			return simulate(c)
 		},
 	}
 )
-
-func Execute() {
-	if err := rootCmd.Execute(); err != nil {
-		panic(err)
-	}
-}
 
 func init() {
 	//parse command line arguments
@@ -30,7 +31,13 @@ func init() {
 	rootCmd.Flags().Uint64VarP(&numSteps, "steps", "s", 10000, "maximum possible number of steps by aliens")
 }
 
-func simulate() error {
+func Execute() {
+	if err := rootCmd.Execute(); err != nil {
+		panic(err)
+	}
+}
+
+func simulate(c *alienmap.Config) error {
 	//implement simulation
-	return nil
+	return alienmap.Simulation(c)
 }

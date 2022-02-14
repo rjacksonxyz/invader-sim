@@ -382,3 +382,12 @@ func (m *Map) Simulate(numAliens uint64, steps uint64) error {
 	}
 	return nil
 }
+
+func Simulation(c *Config) error {
+	var m Map
+	m.InitMap(c)
+	m.PrintMap()
+	m.Simulate(c.NumAliens, c.NumSteps)
+	m.PrintMap()
+	return nil
+}
