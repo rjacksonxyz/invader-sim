@@ -12,7 +12,7 @@ var (
 	numAliens, numSteps uint64
 	rootCmd             = &cobra.Command{
 		Use:  "invader-sim",
-		Long: "Invader Sim: Alien Invasion Simulator\nSpec info available at: https://github.com/zkmiyavi/invader-sim/prompt/prompt.txt",
+		Long: "Invader Sim: Alien Invasion Simulator\nSpec info available at: https://github.com/zkmiyavi/invader-sim/docs/prompt.txt",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c := &alienmap.Config{
 				Filepath:  filepath,

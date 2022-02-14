@@ -4,15 +4,47 @@
 
 # Invader Sim
 
-This project implements an alien invasion simulatore as a CLI. This repo is temporary and will be made private after assessment.
+Invader Sim is a CLI for running configurable simulations of an alien invastion of cities!
 
+---
+
+## Getting Started
+It's super easy to get started with the `invader-sim`
+### 1. Make sure you have Go installed 
+```zsh
+#find out if you have Go already installed
+$ go version
+
+#if an error is thrown, go here to download: https://go.dev/doc/install 
+```
+
+### 2. Clone the repo
+```zsh
+$ git clone https://github.com/zkmiyavi/invader-sim.git
+
+$ cd invader-sim #or just `invader-sim` if using zsh
+
+$ git pull #only one branch at this time
+```
+
+### 3. "Make" the executable
+```zsh
+make all
+# this will run all tests and build the binary into at this path within the project: 
+# /bin/invader-sim
+```
+Now we can get started with ```invader-sim``` !
+
+
+## Using Invader Sim
+
+
+
+---
 ## Objective
 
 The objective laid out is to build an alien invasion simulator with constraints laid out in [prompt.txt]()
     
----
-
-
 ## Prompt Assumptions
 
 Reading through the prompt I make the following assumptions:

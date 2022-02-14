@@ -305,7 +305,7 @@ func (m *Map) Simulate(numAliens uint64, steps uint64) error {
 	}
 	m.FirstWave(numAliens)
 	// starting at 2, firstWabve == step 1
-	for step := uint64(2); step < steps; step++ {
+	for step := uint64(2); step <= steps; step++ {
 		fmt.Println("step: ", step)
 		fmt.Println("step start: ", m.occupants)
 		fmt.Println("step aliens: ", m.numAliens)
