@@ -7,6 +7,7 @@
 [tg-url]: https://t.me/invadersimcli
 
 ----
+
 # Invader Sim
 
 Invader Sim (`invader-sim`) is a CLI for running configurable simulations of an alien invastion of cities!
