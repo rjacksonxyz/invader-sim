@@ -29,9 +29,15 @@ $ git pull #only one branch at this time
 
 ### 3. "Make" the executable
 ```zsh
-make all
 # this will run all tests and build the binary into at this path within the project: 
 # /bin/invader-sim
+make all
+
+# run tests
+make test
+
+# build executable
+make build
 ```
 Now we can get started with `invader-sim` !
 
