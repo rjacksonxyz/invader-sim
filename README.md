@@ -6,6 +6,7 @@
 [tg-badge]: https://img.shields.io/endpoint?color=neon&style=flat-square&url=https%3A%2F%2Ftg.sumanjay.workers.dev%2Finvadersimcli
 [tg-url]: https://t.me/invadersimcli
 
+----
 # Invader Sim
 
 Invader Sim (`invader-sim`) is a CLI for running configurable simulations of an alien invastion of cities!
