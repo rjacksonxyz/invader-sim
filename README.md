@@ -8,6 +8,7 @@ The objective laid out is to build an alien invasion simulator with constraints 
     
 ---
 
+
 ## Prompt Assumptions
 
 Reading through the prompt I make the following assumptions:
