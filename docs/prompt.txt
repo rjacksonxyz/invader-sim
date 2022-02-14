@@ -7,7 +7,7 @@ is in a file, with one city per line. The city name is first, followed by 1-4 di
 direction. 
 
 For example: 
-Foo north=Bar west=Baz south=Qu-ux 
+Foo north=Bar west=Baz south=Shanghai 
 Bar south=Foo west=Bee 
 
 The city and each of the pairs are separated by a single space, and the directions are 
@@ -15,14 +15,14 @@ separated from their respective cities with an equals (=) sign. You should creat
 where N is specified as a command-line argument. These aliens start out at random places on 
 the map, and wander around randomly, following links. Each iteration, the aliens can travel 
 in any of the directions leading out of a city. In our example above, an alien that starts at 
-Foo can go north to Bar, west to Baz, or south to Qu-ux. 
+Foo can go north to Bar, west to Baz, or south to Shanghai. 
 
 When two aliens end up in the same place, they fight, and in the process kill each other and 
 destroy the city. When a city is destroyed, it is removed from the map, and so are any roads 
 that lead into or out of it. 
 
 In our example above, if Bar were destroyed the map would now be something like: 
-Foo west=Baz south=Qu-ux 
+Foo west=Baz south=Shanghai 
 
 Once a city is destroyed, aliens can no longer travel to or through it. This may lead to aliens
 getting "trapped". You should create a program that reads in the world map, creates N aliens, 

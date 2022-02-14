@@ -68,10 +68,10 @@ is in a file, with one city per line. The city name is first, followed by 1-4 di
 direction. 
 
 For example: 
-Foo north=Bar west=Baz south=Qu-ux 
+Foo north=Bar west=Baz south=Shanghai 
 Bar south=Foo west=Bee 
 ```
-* there are two types of cities: cities declared explicitly in the file(e.g. Foo and Bar) and those declared implicitly (Baz, Qu-ux, Bee and Baz)
+* there are two types of cities: cities declared explicitly in the file(e.g. Foo and Bar) and those declared implicitly (Baz, Shanghai, Bee and Baz)
 * an explicitly declared city can contain up to 4 city connections/links 
 * city names do not contain spaces
 * input files contain only valid connections:
@@ -86,7 +86,7 @@ separated from their respective cities with an equals (=) sign. You should creat
 where N is specified as a command-line argument. These aliens start out at random places on 
 the map, and wander around randomly, following links. Each iteration, the aliens can travel 
 in any of the directions leading out of a city. In our example above, an alien that starts at 
-Foo can go north to Bar, west to Baz, or south to Qu-ux. When two aliens end up in the same 
+Foo can go north to Bar, west to Baz, or south to Shanghai. When two aliens end up in the same 
 place, they fight, and in the process kill each other and destroy the city. When a city is 
 destroyed, it is removed from the map, and so are any roads that lead into or out of it. 
 ```
@@ -96,7 +96,7 @@ destroyed, it is removed from the map, and so are any roads that lead into or ou
 
 ```
 In our example above, if Bar were destroyed the map would now be something like: 
-Foo west=Baz south=Qu-ux 
+Foo west=Baz south=Shanghai 
 ```
 * connections between cities must be stored in some state.
 
