@@ -8,7 +8,7 @@
 
 # Invader Sim
 
-Invader Sim (or `invader-sim`) is a CLI for running configurable simulations of an alien invastion of cities!
+Invader Sim (`invader-sim`) is a CLI for running configurable simulations of an alien invastion of cities!
 
 ---
 
