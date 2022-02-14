@@ -370,10 +370,14 @@ func (m *Map) Simulate(numAliens uint64, steps uint64) error {
 //Simulation creates, runs, and outputs results of an alien invasion simulation
 func Simulation(c *Config) error {
 	var m Map
-	m.InitMap(c)
+	if err := m.InitMap(c); err != nil {
+		return err
+	}
 	fmt.Println("Initial Map:\n--------------------")
 	m.PrintMap()
-	m.Simulate(c.NumAliens, c.NumSteps)
+	if err := m.Simulate(c.NumAliens, c.NumSteps); err != nil {
+		return err
+	}
 	fmt.Println("Final Map:\n--------------------")
 	m.PrintMap()
 	return nil
