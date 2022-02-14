@@ -1,3 +1,8 @@
+![Github Actions](https://github.com/zkmiyavi/invader-sim/actions/workflows/test.yml/badge.svg)
+![Github Actions](https://github.com/zkmiyavi/invader-sim/actions/workflows/build.yml/badge.svg)
+
+
+
 # Invader Sim
 
 This project implements an alien invasion simulatore as a CLI. This repo is temporary and will be made private after assessment.
