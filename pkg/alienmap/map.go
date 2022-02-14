@@ -87,13 +87,40 @@ func (m *Map) AddConnection(cityname1 string, cityname2 string, direction string
 
 //RemoveCity removes the City from Map.cities and
 //deletes it's connections with other Cities
-//TODO: Need to implement
+//TODO: better error handling
 func (m *Map) RemoveCity(cityname string) error {
+
+	c1, _ := m.cities[cityname]
+	// if !ok {
+	// 	return nil
+	// }
+
+	// Remove the city from all connections
+	c1Connections := m.connections[*c1]
+	for _, c2 := range c1Connections {
+		if c2 != nil {
+			c2Connections := m.connections[*c2]
+			// Remove c1 from c2's conncetions
+			for direction := range c2Connections {
+				c2Neighbor := c2Connections[direction]
+				// Check if the pointers are the same
+				if c2Neighbor == c1 {
+					c2Connections[direction] = nil
+					break
+				}
+			}
+		}
+	}
+	m.destroyed[cityname] = true
+
+	// Remove the cities from the list of cities
+	delete(m.cities, cityname)
+	delete(m.connections, *c1)
+	fmt.Fprintln(os.Stdout, cityname, "removed")
 	return nil
 }
 
 //PrintMap prints the cities along with their neighbors
-//TODO: Need to
 func (m *Map) PrintMap() {
 
 	fmt.Fprintln(os.Stdout, "cities", m.cities)
@@ -224,3 +251,43 @@ func makeAliens(min, max uint64) []uint64 {
 	}
 	return a
 }
+
+// FirstWave represents the first step in the invasion simulation.
+// It instantiates a slice of ints (aliens) and begins populating
+// Cities randomly. Per the prompt spec, if two aliens end up in a
+// City during this phase, that City is destroyed.
+func (m *Map) FirstWave(numAliens uint64) error {
+	fmt.Fprintf(os.Stdout, "first wave\n")
+	aliens := makeAliens(1, numAliens)
+	fmt.Fprintf(os.Stdout, "made aliens\n")
+	for _, a := range aliens {
+		if len(m.cities) == 0 || m.numAliens == 0 {
+			fmt.Fprintf(os.Stdout, "break")
+			break
+		}
+		randomCity := m.PickRandomCity()
+		_, ok := m.occupants[randomCity]
+		if ok {
+			m.occupants[randomCity].Add(a)
+			if m.occupants[randomCity].Cardinality() > 1 {
+				aliens := m.occupants[randomCity].ToSlice()
+				msg := fmt.Sprintf("%s has been destroyed by alien %d and alien %d!\n",
+					randomCity.name,
+					aliens[0],
+					aliens[1],
+				)
+				fmt.Fprintf(os.Stdout, "%s", msg)
+				m.numAliens -= 2
+			}
+			m.RemoveCity(randomCity.name)
+			delete(m.occupants, randomCity)
+		} else {
+			occupantSet := mapset.NewSet()
+			occupantSet.Add(a)
+			m.occupants[randomCity] = occupantSet
+		}
+	}
+	return nil
+}
+
+func (m *Map) SubsequentWave() {} //?
