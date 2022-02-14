@@ -1,6 +1,10 @@
 ![Github Actions](https://github.com/zkmiyavi/invader-sim/actions/workflows/test.yml/badge.svg)
 ![Github Actions](https://github.com/zkmiyavi/invader-sim/actions/workflows/build.yml/badge.svg)
 [![codecov](https://codecov.io/gh/zkmiyavi/invader-sim/branch/main/graph/badge.svg)](https://codecov.io/gh/zkmiyavi/invader-sim)
+[![Telegram Chat][tg-badge]][tg-url]
+
+[tg-badge]: https://img.shields.io/endpoint?color=neon&style=flat-square&url=https%3A%2F%2Ftg.sumanjay.workers.dev%2Finvadersimcli
+[tg-url]: https://t.me/invadersimcli
 
 # Invader Sim
 
@@ -36,7 +40,7 @@ make all
 # run tests
 make test
 
-# build executable
+# build binary
 make build
 ```
 Now we can get started with `invader-sim` !
@@ -58,7 +62,21 @@ If you want more info on the CLI, run:
 ```
 ![alt text](https://github.com/zkmiyavi/invader-sim/blob/main/docs/help_prompt.png)
 
+Alternatively you can run:
+```zsh
+go run cmd/main.go -h
+```
 ---
+
+## Getting Help
+First, see if the answer to your question can be found in the README.md or commented documentation. If the answer is not there, try opening
+an
+[issue](https://github.com/zkmiyavi/invader-sim/issues/new) with your question or suggestion.
+
+To join the Invader Sim community or to receive more immediate help, you can use our [telegram](https://t.me/invadersimcli) to chat with us!
+
+---
+
 ## Project Objective
 
 The objective laid out is to build an alien invasion simulator with constraints laid out in [prompt.txt](https://github.com/zkmiyavi/invader-sim/blob/main/docs/prompt.txt)
