@@ -23,7 +23,7 @@ func (cn *City) String() string {
 
 type Map struct {
 	cities      map[string]*City          //all none-destroyed cities
-	connections map[City]map[string]*City //connections (north, south, east, est) for all cities
+	connections map[City]map[string]*City //connections (north, south, east, est) for all cities (links)
 	occupants   map[*City]mapset.Set      //occupants by city
 	destroyed   map[string]bool           //cities that have been destroyed
 	numAliens   uint64                    //number of Aliens alive
@@ -255,6 +255,16 @@ func makeAliens(min, max uint64) []uint64 {
 	return a
 }
 
+//CityNotification notfies user when a city has been destroyed
+func (m *Map) CityNotification(cityname string, alien1, alien2 interface{}) {
+	msg := fmt.Sprintf("%s has been destroyed by alien %v and alien %v!\n",
+		cityname,
+		alien1,
+		alien2,
+	)
+	fmt.Fprintf(os.Stdout, "%s", msg)
+}
+
 // FirstWave represents the first step in the invasion simulation.
 // It instantiates a slice of ints (aliens) and begins populating
 // Cities randomly. Per the prompt spec, if two aliens end up in a
@@ -272,12 +282,7 @@ func (m *Map) FirstWave(numAliens uint64) error {
 			m.occupants[randomCity].Add(a)
 			if m.occupants[randomCity].Cardinality() > 1 {
 				aliens := m.occupants[randomCity].ToSlice()
-				msg := fmt.Sprintf("%s has been destroyed by alien %d and alien %d!\n",
-					randomCity.name,
-					aliens[0],
-					aliens[1],
-				)
-				fmt.Fprintf(os.Stdout, "%s", msg)
+				m.CityNotification(randomCity.name, aliens[0], aliens[1])
 				m.numAliens -= 2
 			}
 			m.RemoveCity(randomCity.name)
@@ -339,12 +344,7 @@ func (m *Map) Simulate(numAliens uint64, steps uint64) error {
 						// if so, destroy that city
 						if m.occupants[randomCity].Cardinality() > 1 {
 							aliens := m.occupants[randomCity].ToSlice()
-							msg := fmt.Sprintf("%s has been destroyed by alien %d and alien %d!\n",
-								randomCity.name,
-								aliens[0],
-								aliens[1],
-							)
-							fmt.Fprintf(os.Stdout, "%s", msg)
+							m.CityNotification(randomCity.name, aliens[0], aliens[1])
 							m.numAliens -= 2
 							m.RemoveCity(randomCity.name)
 							delete(m.occupants, randomCity)
