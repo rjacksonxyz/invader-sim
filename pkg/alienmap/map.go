@@ -339,11 +339,12 @@ func (m *Map) Simulate(numAliens uint64, steps uint64) error {
 						// if so, destroy that city
 						if m.occupants[randomCity].Cardinality() > 1 {
 							aliens := m.occupants[randomCity].ToSlice()
-							fmt.Printf("%s has been destroyed by alien %d and alien %d!\n",
+							msg := fmt.Sprintf("%s has been destroyed by alien %d and alien %d!\n",
 								randomCity.name,
 								aliens[0],
 								aliens[1],
 							)
+							fmt.Fprintf(os.Stdout, "%s", msg)
 							m.numAliens -= 2
 							m.RemoveCity(randomCity.name)
 							delete(m.occupants, randomCity)
@@ -365,7 +366,7 @@ func (m *Map) Simulate(numAliens uint64, steps uint64) error {
 			}
 		}
 	}
-	fmt.Println()
+	fmt.Fprintln(os.Stdout)
 	return nil
 }
 
@@ -375,12 +376,12 @@ func Simulation(c *Config) error {
 	if err := m.InitMap(c); err != nil {
 		return err
 	}
-	fmt.Println("Initial Map:\n--------------------")
+	fmt.Fprintln(os.Stdout, "Initial Map:\n--------------------")
 	m.PrintMap()
 	if err := m.Simulate(c.NumAliens, c.NumSteps); err != nil {
 		return err
 	}
-	fmt.Println("Final Map:\n--------------------")
+	fmt.Fprintln(os.Stdout, "Final Map:\n--------------------")
 	m.PrintMap()
 	return nil
 }
