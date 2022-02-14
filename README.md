@@ -1,7 +1,6 @@
 ![Github Actions](https://github.com/zkmiyavi/invader-sim/actions/workflows/test.yml/badge.svg)
 ![Github Actions](https://github.com/zkmiyavi/invader-sim/actions/workflows/build.yml/badge.svg)
-
-
+[![codecov](https://codecov.io/gh/zkmiyavi/invader-sim/branch/main/graph/badge.svg)](https://codecov.io/gh/zkmiyavi/invader-sim)
 
 # Invader Sim
 
