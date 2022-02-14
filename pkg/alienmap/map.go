@@ -296,46 +296,52 @@ func (m *Map) SubsequentWave() {} //?
 // passed: numAliens and steps
 // Assumes that, at no point, more than two aliens can be in a city
 func (m *Map) Simulate(numAliens uint64, steps uint64) error {
-	// m.occupants := make(map[*City]mapset.Set)
-	// Assign aliens to random cities
+	// if no cities/aliens passed in, return nil
+	if len(m.cities) == 0 || m.numAliens == 0 {
+		return nil
+	}
 	m.FirstWave(numAliens)
-	// Step with aliens
-	for step := uint64(2); step <= steps; step++ {
-		// Look at all cities with alien occupants
-		if len(m.cities) == 0 || m.numAliens == 0 {
-			break
-		}
+	// starting at 2, firstWabve == step 1
+	for step := uint64(2); step < steps; step++ {
 		fmt.Println("step: ", step)
 		fmt.Println("step start: ", m.occupants)
 		fmt.Println("step aliens: ", m.numAliens)
+		// movedAliens stores aliens already moved in a given step
 		movedAliens := make(map[interface{}]bool)
 
-		for city, cityOccupants := range m.occupants {
+		// retrieve city and accompanying occupants(aliens)
+		for city, cityAliens := range m.occupants {
 			fmt.Println("current_city: ", city.name)
-			_, destroyed := m.destroyed[city.name]
+			_, destroyed := m.destroyed[city.name] //check is city is destroyed
 			// If those cities have neighbors, we can move the occcupants one step
 			if m.hasNeighbors(city) && !destroyed {
 				occcupantsToRemove := make([]interface{}, 0)
-
-				for _, cityOccupant := range cityOccupants.ToSlice() {
+				// retrieving alien from cityAliens set
+				// if we reach this stage, it can be assumed that only 1 alien is present
+				for _, cityOccupant := range cityAliens.ToSlice() {
 					_, moved := movedAliens[cityOccupant]
 					if moved {
 						fmt.Println(cityOccupant, "already moved")
 						continue
 					}
+					// pick random, valid neghbor
 					randomCity := m.PickRandomNeighbor(city)
 					fmt.Println("current_alien: ", cityOccupant)
 					fmt.Println("moved_aliens: ", movedAliens)
 					fmt.Println("destination_city: ", randomCity.name)
 					// Update the neighboring city's slice of occupants
-					_, ok := m.occupants[randomCity]
-					_, destroyed := m.destroyed[randomCity.name]
+					_, ok := m.occupants[randomCity]             // is this city presently being tracked?
+					_, destroyed := m.destroyed[randomCity.name] // is this city destroyed?
 					if ok {
+						// move alien into new city
 						fmt.Println("substate mid1: ", m.occupants)
 						m.occupants[randomCity].Add(cityOccupant)
 						fmt.Printf("alien %d going from %s to %s\n", cityOccupant, city.name, randomCity.name)
 						m.occupants[city].Remove(cityOccupant)
 						fmt.Println("substate mid2: ", m.occupants)
+
+						// check if city that alien moved two now has 2 aliens.
+						// if so, destroy that city
 						if m.occupants[randomCity].Cardinality() > 1 {
 							aliens := m.occupants[randomCity].ToSlice()
 							fmt.Printf("%s has been destroyed by alien %d and alien %d!\n",
@@ -349,6 +355,8 @@ func (m *Map) Simulate(numAliens uint64, steps uint64) error {
 							fmt.Println("substate mid3: ", m.occupants)
 						}
 					} else if !destroyed {
+						// assuming we're not tracking city, and it's not destroyed
+						// move alien into new city.
 						m.occupants[randomCity] = mapset.NewSet()
 						fmt.Println("substate mid1: ", m.occupants)
 						m.occupants[randomCity].Add(cityOccupant)
@@ -356,12 +364,13 @@ func (m *Map) Simulate(numAliens uint64, steps uint64) error {
 						m.occupants[city].Remove(cityOccupant)
 						fmt.Println("substate mid2: ", m.occupants)
 					}
+					// keep track of which aliens have already moved in a given step
 					fmt.Println("adding", cityOccupant, "to moved_aliens")
 					movedAliens[cityOccupant] = true
 				}
 
 				for removedAlien := range occcupantsToRemove {
-					cityOccupants.Remove(removedAlien)
+					cityAliens.Remove(removedAlien)
 				}
 			} else {
 				fmt.Println(city.name, "has been destroyed or has no neighbors.")
