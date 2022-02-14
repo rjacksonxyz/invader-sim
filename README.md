@@ -39,6 +39,8 @@ $ git pull #only one branch at this time
 # /bin/invader-sim
 make all
 
+
+# Alternatively, you can run tests and build the binary separately 
 # run tests
 make test
 
