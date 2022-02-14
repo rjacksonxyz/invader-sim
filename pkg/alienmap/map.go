@@ -289,7 +289,10 @@ func (m *Map) FirstWave(numAliens uint64) error {
 	return nil
 }
 
-func (m *Map) SubsequentWave() {} //?
+func (m *Map) MoveAlien(alien interface{}, origin *City, dest *City) {
+	m.occupants[dest].Add(alien)
+	m.occupants[origin].Remove(alien)
+}
 
 // Simulate runs a an alien invasion simulation based on parameters
 // passed: numAliens and steps
@@ -327,8 +330,7 @@ func (m *Map) Simulate(numAliens uint64, steps uint64) error {
 					_, destroyed := m.destroyed[randomCity.name] // is this city destroyed?
 					if ok {
 						// move alien into new city
-						m.occupants[randomCity].Add(cityOccupant)
-						m.occupants[city].Remove(cityOccupant)
+						m.MoveAlien(cityOccupant, city, randomCity)
 						// check if city that alien moved two now has 2 aliens.
 						// if so, destroy that city
 						if m.occupants[randomCity].Cardinality() > 1 {
@@ -346,8 +348,7 @@ func (m *Map) Simulate(numAliens uint64, steps uint64) error {
 						// assuming we're not tracking city, and it's not destroyed
 						// move alien into new city.
 						m.occupants[randomCity] = mapset.NewSet()
-						m.occupants[randomCity].Add(cityOccupant)
-						m.occupants[city].Remove(cityOccupant)
+						m.MoveAlien(cityOccupant, city, randomCity)
 					}
 					// keep track of which aliens have already moved in a given step
 					movedAliens[cityOccupant] = true
