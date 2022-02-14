@@ -4,12 +4,12 @@
 
 # Invader Sim
 
-Invader Sim is a CLI for running configurable simulations of an alien invastion of cities!
+Invader Sim (or `invader-sim`) is a CLI for running configurable simulations of an alien invastion of cities!
 
 ---
 
 ## Getting Started
-It's super easy to get started with the `invader-sim`
+It's super easy to get started with the `invader-sim` CLI.
 ### 1. Make sure you have Go installed 
 ```zsh
 #find out if you have Go already installed
@@ -33,13 +33,13 @@ make all
 # this will run all tests and build the binary into at this path within the project: 
 # /bin/invader-sim
 ```
-Now we can get started with ```invader-sim``` !
+Now we can get started with `invader-sim` !
 
 
 ## Using Invader Sim
 
 ![alt text](https://github.com/zkmiyavi/invader-sim/blob/main/docs/default_run.png)
-Above is an example of a default run of the Invader Sim CLi. From the user's perspective, the simulation shows 3 parts:
+Above is an example of a default run of the `invader-sim` CLI. From the user's perspective, the simulation shows 3 parts:
 1. Print out the initial state of the map
 2. Print out notification when a city is destroyed
 3. Print out the final state of the map
@@ -55,7 +55,7 @@ If you want more info on the CLI, run:
 ---
 ## Project Objective
 
-The objective laid out is to build an alien invasion simulator with constraints laid out in [prompt.txt]()
+The objective laid out is to build an alien invasion simulator with constraints laid out in [prompt.txt](https://github.com/zkmiyavi/invader-sim/blob/main/docs/prompt.txt)
     
 ## Prompt Assumptions
 
