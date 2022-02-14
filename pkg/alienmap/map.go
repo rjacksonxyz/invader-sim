@@ -26,7 +26,7 @@ type Map struct {
 	connections map[City]map[string]*City //connections (north, south, east, est) for all cities
 	occupants   map[*City]mapset.Set      //occupants by city
 	destroyed   map[string]bool           //cities that have been destroyed
-	numAliens   uint64
+	numAliens   uint64                    //number of Aliens alive
 }
 
 type Config struct {
@@ -289,6 +289,8 @@ func (m *Map) FirstWave(numAliens uint64) error {
 	return nil
 }
 
+// MoveAlien moves removes an alien from the origin city's occupants
+// and adds it to the destination city's occupants
 func (m *Map) MoveAlien(alien interface{}, origin *City, dest *City) {
 	m.occupants[dest].Add(alien)
 	m.occupants[origin].Remove(alien)
@@ -303,7 +305,7 @@ func (m *Map) Simulate(numAliens uint64, steps uint64) error {
 		return nil
 	}
 	m.FirstWave(numAliens)
-	// starting at 2, firstWabve == step 1
+	// starting at 2, firstWave == step 1
 	for step := uint64(2); step <= steps; step++ {
 
 		// movedAliens stores aliens already moved in a given step
@@ -365,6 +367,7 @@ func (m *Map) Simulate(numAliens uint64, steps uint64) error {
 	return nil
 }
 
+//Simulation creates, runs, and outputs results of an alien invasion simulation
 func Simulation(c *Config) error {
 	var m Map
 	m.InitMap(c)
