@@ -18,21 +18,23 @@ func TestPrintMap(t *testing.T) {
 }
 
 func TestRemoveCity(t *testing.T) {
+	b := "Baz"
 	m, err := helper()
 	assert.NoError(t, err)
-	err = m.RemoveCity("Baz")
+	err = m.RemoveCity(b)
 	assert.NoError(t, err)
-	_, exists := m.cities["Baz"]
+	_, exists := m.cities[b]
 	assert.Equal(t, exists, false)
 }
 
 func TestAddCity(t *testing.T) {
+	p := "Parise"
 	m, err := helper()
 	assert.NoError(t, err)
-	newCity := City{"Paris"}
+	newCity := City{p}
 	err = m.AddCity(&newCity)
 	assert.NoError(t, err)
-	_, exists := m.cities["Paris"]
+	_, exists := m.cities[p]
 	assert.Equal(t, exists, true)
 }
 
